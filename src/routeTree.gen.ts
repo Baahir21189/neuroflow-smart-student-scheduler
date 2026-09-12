@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProblemSolutionRouteImport } from './routes/problem-solution'
+import { Route as SchedulerRouteImport } from './routes/scheduler'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProblemSolutionRoute = ProblemSolutionRouteImport.update({
+  id: '/problem-solution',
+  path: '/problem-solution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchedulerRoute = SchedulerRouteImport.update({
+  id: '/scheduler',
+  path: '/scheduler',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/problem-solution': typeof ProblemSolutionRoute
+  '/scheduler': typeof SchedulerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/problem-solution': typeof ProblemSolutionRoute
+  '/scheduler': typeof SchedulerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/problem-solution': typeof ProblemSolutionRoute
+  '/scheduler': typeof SchedulerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/problem-solution' | '/scheduler'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/problem-solution' | '/scheduler'
+  id: '__root__' | '/' | '/problem-solution' | '/scheduler'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProblemSolutionRoute: typeof ProblemSolutionRoute
+  SchedulerRoute: typeof SchedulerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/problem-solution': {
+      id: '/problem-solution'
+      path: '/problem-solution'
+      fullPath: '/problem-solution'
+      preLoaderRoute: typeof ProblemSolutionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scheduler': {
+      id: '/scheduler'
+      path: '/scheduler'
+      fullPath: '/scheduler'
+      preLoaderRoute: typeof SchedulerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProblemSolutionRoute: ProblemSolutionRoute,
+  SchedulerRoute: SchedulerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
