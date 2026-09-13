@@ -73,7 +73,7 @@ const cardVariants = {
   exit: { opacity: 0, x: -60 },
 };
 
-export function AssessmentQuiz() {
+export function AssessmentQuiz({ onComplete }: { onComplete?: () => void }) {
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -95,6 +95,7 @@ export function AssessmentQuiz() {
     if (!selected) return;
     if (isLast) {
       calculateResult(answers);
+      onComplete?.();
       return;
     }
     setCurrent((c) => c + 1);
