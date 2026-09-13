@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Brain, CalendarDays, ListPlus, Lock, User } from "lucide-react";
 import { toast } from "sonner";
+import { AssessmentQuiz } from "@/components/AssessmentQuiz";
 import { isAssessmentComplete, setAssessmentComplete } from "@/lib/assessment";
 
 export const Route = createFileRoute("/scheduler")({
