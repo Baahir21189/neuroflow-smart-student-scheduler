@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProblemSolutionRouteImport } from './routes/problem-solution'
 import { Route as SchedulerRouteImport } from './routes/scheduler'
+import { Route as ApiGeneratePlanRouteImport } from './routes/api/generate-plan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,45 @@ const SchedulerRoute = SchedulerRouteImport.update({
   path: '/scheduler',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGeneratePlanRoute = ApiGeneratePlanRouteImport.update({
+  id: '/api/generate-plan',
+  path: '/api/generate-plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/problem-solution': typeof ProblemSolutionRoute
   '/scheduler': typeof SchedulerRoute
+  '/api/generate-plan': typeof ApiGeneratePlanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/problem-solution': typeof ProblemSolutionRoute
   '/scheduler': typeof SchedulerRoute
+  '/api/generate-plan': typeof ApiGeneratePlanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/problem-solution': typeof ProblemSolutionRoute
   '/scheduler': typeof SchedulerRoute
+  '/api/generate-plan': typeof ApiGeneratePlanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/problem-solution' | '/scheduler'
+  fullPaths: '/' | '/problem-solution' | '/scheduler' | '/api/generate-plan'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/problem-solution' | '/scheduler'
-  id: '__root__' | '/' | '/problem-solution' | '/scheduler'
+  to: '/' | '/problem-solution' | '/scheduler' | '/api/generate-plan'
+  id:
+    '__root__' | '/' | '/problem-solution' | '/scheduler' | '/api/generate-plan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProblemSolutionRoute: typeof ProblemSolutionRoute
   SchedulerRoute: typeof SchedulerRoute
+  ApiGeneratePlanRoute: typeof ApiGeneratePlanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +93,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchedulerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/generate-plan': {
+      id: '/api/generate-plan'
+      path: '/api/generate-plan'
+      fullPath: '/api/generate-plan'
+      preLoaderRoute: typeof ApiGeneratePlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +107,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProblemSolutionRoute: ProblemSolutionRoute,
   SchedulerRoute: SchedulerRoute,
+  ApiGeneratePlanRoute: ApiGeneratePlanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -12,6 +12,7 @@ import {
 interface Props {
   profile: FlowwProfile;
   condensed?: boolean;
+  hideActions?: boolean;
   onSetUpRoutine: () => void;
   onRetake: () => void;
 }
@@ -124,6 +125,7 @@ function RetakeButton({ onRetake }: { onRetake: () => void }) {
 export function AssessmentResult({
   profile,
   condensed = false,
+  hideActions = false,
   onSetUpRoutine,
   onRetake,
 }: Props) {
@@ -213,21 +215,22 @@ export function AssessmentResult({
         <WeekCard profile={profile} />
       </motion.div>
 
-      {/* Actions */}
-      <motion.div
-        {...rise(condensed ? 0 : 1)}
-        className="mt-10 flex flex-col items-center gap-5 pb-4"
-      >
-        <button
-          type="button"
-          onClick={onSetUpRoutine}
-          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+      {!hideActions && (
+        <motion.div
+          {...rise(condensed ? 0 : 1)}
+          className="mt-10 flex flex-col items-center gap-5 pb-4"
         >
-          Set Up My Routine
-          <ArrowRight className="size-4" />
-        </button>
-        <RetakeButton onRetake={onRetake} />
-      </motion.div>
+          <button
+            type="button"
+            onClick={onSetUpRoutine}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Set Up My Routine
+            <ArrowRight className="size-4" />
+          </button>
+          <RetakeButton onRetake={onRetake} />
+        </motion.div>
+      )}
     </div>
   );
 }

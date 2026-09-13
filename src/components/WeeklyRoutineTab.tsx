@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { 
-  Sunrise, Moon, ChevronLeft, ChevronRight, Plus, 
+  Sunrise, Moon, ChevronLeft, ChevronRight, Plus, Maximize2, Minimize2,
   Pencil, Trash2, CheckCircle2, AlertCircle 
 } from "lucide-react";
 import { 
@@ -12,7 +12,9 @@ import { toast } from "sonner";
 import { 
   RoutineBlock, SleepBoundaries, 
   loadRoutineBlocks, saveRoutineBlocks, 
-  loadSleepBoundaries, saveSleepBoundaries, clearRoutineData 
+  loadDemoRoutineBlocks, saveDemoRoutineBlocks,
+  loadSleepBoundaries, saveSleepBoundaries, clearRoutineData, clearDemoRoutineData,
+  loadActiveRoutine, saveActiveRoutine, type RoutineKind
 } from "@/lib/routine";
 import { FlowwProfile } from "@/lib/profile";
 
@@ -56,7 +58,9 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   );
   
   const [blocks, setBlocks] = useState<RoutineBlock[]>([]);
+  const [activeRoutine, setActiveRoutine] = useState<RoutineKind>(() => loadActiveRoutine());
   const [sleepBounds, setSleepBounds] = useState<SleepBoundaries>({ wakeTime: "08:00", bedTime: "23:00" });
+  const [isExpanded, setIsExpanded] = useState(false);
   
   const scrollRef = useRef<HTMLDivElement>(null);
   
@@ -70,7 +74,7 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   const [formColor, setFormColor] = useState("violet");
   
   useEffect(() => {
-    setBlocks(loadRoutineBlocks());
+    setBlocks(activeRoutine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks());
     setSleepBounds(loadSleepBoundaries(profile));
     
     // Auto-scroll to 07:00
@@ -79,12 +83,24 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
     }
     
     const handleStorage = () => {
-      setBlocks(loadRoutineBlocks());
+      setBlocks(activeRoutine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks());
       setSleepBounds(loadSleepBoundaries(profile));
     };
     window.addEventListener("neuroflow:routine-changed", handleStorage);
     return () => window.removeEventListener("neuroflow:routine-changed", handleStorage);
-  }, [profile]);
+  }, [profile, activeRoutine]);
+
+  const selectRoutine = (routine: "personal" | "demo") => {
+    setActiveRoutine(routine);
+    saveActiveRoutine(routine);
+    setBlocks(routine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks());
+    handleCancelForm();
+  };
+
+  const saveActiveBlocks = (nextBlocks: RoutineBlock[]) => {
+    if (activeRoutine === "demo") saveDemoRoutineBlocks(nextBlocks);
+    else saveRoutineBlocks(nextBlocks);
+  };
   
   const handleSaveBlock = () => {
     if (!formLabel.trim() || formDays.length === 0 || !formStartTime || !formEndTime) {
@@ -112,7 +128,7 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
       : [...blocks, newBlock];
       
     setBlocks(newBlocks);
-    saveRoutineBlocks(newBlocks);
+    saveActiveBlocks(newBlocks);
     toast.success(`Routine block ${editingId ? "updated" : "saved"} ✓`);
     handleCancelForm();
   };
@@ -130,7 +146,7 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   const handleDelete = (id: string) => {
     const updated = blocks.filter(b => b.id !== id);
     setBlocks(updated);
-    saveRoutineBlocks(updated);
+    saveActiveBlocks(updated);
     toast.success("Routine block deleted");
     if (editingId === id) handleCancelForm();
   };
@@ -147,7 +163,8 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   
   const handleResetAll = () => {
     if (confirm("Are you sure you want to clear all routine blocks?")) {
-      clearRoutineData();
+      if (activeRoutine === "demo") clearDemoRoutineData();
+      else clearRoutineData();
       setBlocks([]);
     }
   };
@@ -174,9 +191,9 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   const goToToday = () => setCurrentWeekStart(startOfWeek(startOfToday(), { weekStartsOn: 1 }));
 
   return (
-    <div className="flex h-[75vh] w-full rounded-2xl border border-border bg-card overflow-hidden">
+    <div className={`${isExpanded ? "fixed inset-0 z-50 h-screen rounded-none" : "min-h-[680px] h-[85vh] rounded-2xl"} flex w-full overflow-hidden border border-border bg-card`}>
       {/* LEFT PANEL */}
-      <div className="flex w-[300px] shrink-0 flex-col border-r border-border bg-muted/10">
+      <div className="flex w-[340px] shrink-0 flex-col border-r border-border bg-muted/10">
         
         {/* Section 1: Sleep Boundaries */}
         <div className="border-b border-border p-4">
@@ -187,24 +204,34 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
                 <Sunrise className="size-4 text-violet-500" />
                 Wake Up
               </div>
-              <input 
-                type="time" 
-                value={sleepBounds.wakeTime} 
-                onChange={e => handleSleepChange("wakeTime", e.target.value)}
-                className="rounded border border-border bg-background px-2 py-1 text-sm outline-none focus:border-primary"
-              />
+              <div className="flex items-center gap-2">
+                <input 
+                  type="time" 
+                  value={sleepBounds.wakeTime} 
+                  onChange={e => handleSleepChange("wakeTime", e.target.value)}
+                  className="appearance-none rounded border border-border bg-background px-2 py-1 text-sm outline-none focus:border-primary [&::-webkit-calendar-picker-indicator]:hidden"
+                />
+                <span className="w-10 text-right text-xs text-muted-foreground">
+                  {formatTime12h(sleepBounds.wakeTime)}
+                </span>
+              </div>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-foreground">
                 <Moon className="size-4 text-rose-500" />
                 Bed Time
               </div>
-              <input 
-                type="time" 
-                value={sleepBounds.bedTime} 
-                onChange={e => handleSleepChange("bedTime", e.target.value)}
-                className="rounded border border-border bg-background px-2 py-1 text-sm outline-none focus:border-primary"
-              />
+              <div className="flex items-center gap-2">
+                <input 
+                  type="time" 
+                  value={sleepBounds.bedTime} 
+                  onChange={e => handleSleepChange("bedTime", e.target.value)}
+                  className="appearance-none rounded border border-border bg-background px-2 py-1 text-sm outline-none focus:border-primary [&::-webkit-calendar-picker-indicator]:hidden"
+                />
+                <span className="w-10 text-right text-xs text-muted-foreground">
+                  {formatTime12h(sleepBounds.bedTime)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -267,20 +294,30 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
               })}
             </div>
             
-            <div className="flex gap-2">
-              <input 
-                type="time" 
-                value={formStartTime} 
-                onChange={e => setFormStartTime(e.target.value)}
-                className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-              />
+            <div className="flex items-center gap-2">
+              <div className="flex min-w-0 flex-1 items-center gap-1">
+                <input 
+                  type="time" 
+                  value={formStartTime}
+                  onChange={e => setFormStartTime(e.target.value)}
+                  className="min-w-0 flex-1 appearance-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary [&::-webkit-calendar-picker-indicator]:hidden"
+                />
+                <span className="shrink-0 text-xs text-muted-foreground">
+                  {formatTime12h(formStartTime)}
+                </span>
+              </div>
               <span className="flex items-center text-muted-foreground">to</span>
-              <input 
-                type="time" 
-                value={formEndTime} 
-                onChange={e => setFormEndTime(e.target.value)}
-                className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-              />
+              <div className="flex min-w-0 flex-1 items-center gap-1">
+                <input 
+                  type="time" 
+                  value={formEndTime}
+                  onChange={e => setFormEndTime(e.target.value)}
+                  className="min-w-0 flex-1 appearance-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary [&::-webkit-calendar-picker-indicator]:hidden"
+                />
+                <span className="shrink-0 text-xs text-muted-foreground">
+                  {formatTime12h(formEndTime)}
+                </span>
+              </div>
             </div>
             
             <div className="flex justify-between pt-1">
@@ -306,9 +343,39 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
         </div>
         
         {/* Section 3: Saved Blocks */}
-        <div className="flex flex-1 flex-col overflow-hidden p-4">
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Saved Routine</h3>
-          <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+          <div className="mb-3 grid gap-2">
+            <button
+              type="button"
+              onClick={() => selectRoutine("demo")}
+              className={`w-full rounded-md border p-2.5 text-left transition-colors ${
+                activeRoutine === "demo"
+                  ? "border-primary/60 bg-primary/10"
+                  : "border-border bg-background hover:border-primary/40"
+              }`}
+            >
+              <div className="text-sm font-medium">Demo Routine</div>
+              <div className="mt-0.5 text-[11px] text-muted-foreground">
+                Click to open the demo calendar
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => selectRoutine("personal")}
+              className={`w-full rounded-md border p-2.5 text-left transition-colors ${
+                activeRoutine === "personal"
+                  ? "border-primary/60 bg-primary/10"
+                  : "border-border bg-background hover:border-primary/40"
+              }`}
+            >
+              <div className="text-sm font-medium">My Routine</div>
+              <div className="mt-0.5 text-[11px] text-muted-foreground">
+                Your saved weekly blocks
+              </div>
+            </button>
+          </div>
+          <div className="min-h-[120px] flex-1 overflow-y-auto space-y-2 pr-1">
             {blocks.length === 0 ? (
               <p className="mt-6 text-center text-sm text-muted-foreground">
                 No routine blocks yet. Start by adding your university timetable.
@@ -341,19 +408,18 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
             )}
           </div>
           
-          {blocks.length > 0 && (
-            <div className="mt-4 flex flex-col gap-3">
-              <button onClick={handleResetAll} className="text-xs font-medium text-destructive hover:underline self-center">
+          <div className="mt-4 flex flex-col gap-3">
+              <button onClick={handleResetAll} disabled={blocks.length === 0} className="text-xs font-medium text-destructive hover:underline self-center disabled:cursor-not-allowed disabled:opacity-40">
                 Reset All Blocks
               </button>
               <button 
                 onClick={onContinueToTasks}
+                disabled={blocks.length === 0}
                 className="w-full rounded-md border border-primary text-primary py-2.5 text-sm font-medium transition-colors hover:bg-primary/5"
               >
                 Continue to Add Tasks →
               </button>
             </div>
-          )}
         </div>
       </div>
       
@@ -373,9 +439,28 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
               <ChevronRight className="size-4" />
             </button>
           </div>
-          <button onClick={goToToday} className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium hover:bg-muted">
-            Today
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsExpanded((expanded) => !expanded)}
+              aria-label={isExpanded ? "Exit full screen" : "View routine in full screen"}
+              title={isExpanded ? "Exit full screen" : "View routine in full screen"}
+              className="inline-flex size-7 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              {isExpanded ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
+            </button>
+            <button
+              onClick={handleResetAll}
+              disabled={blocks.length === 0}
+              title="Clear all routine blocks"
+              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/40 px-3 py-1 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Trash2 className="size-3.5" />
+              Clear calendar
+            </button>
+            <button onClick={goToToday} className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium hover:bg-muted">
+              Today
+            </button>
+          </div>
         </div>
         
         {/* Day Columns Header */}

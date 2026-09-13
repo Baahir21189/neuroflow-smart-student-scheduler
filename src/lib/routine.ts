@@ -16,7 +16,24 @@ export interface SleepBoundaries {
 }
 
 export const PRAGMA_ANCHORS_KEY = "pragma_anchors";
+export const PRAGMA_DEMO_ANCHORS_KEY = "pragma_demo_anchors";
+export const PRAGMA_ACTIVE_ROUTINE_KEY = "pragma_active_routine";
 export const PRAGMA_SLEEP_KEY = "pragma_sleep";
+
+export type RoutineKind = "personal" | "demo";
+
+export function loadActiveRoutine(): RoutineKind {
+  if (typeof window === "undefined") return "personal";
+  return window.localStorage.getItem(PRAGMA_ACTIVE_ROUTINE_KEY) === "demo"
+    ? "demo"
+    : "personal";
+}
+
+export function saveActiveRoutine(routine: RoutineKind) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PRAGMA_ACTIVE_ROUTINE_KEY, routine);
+  window.dispatchEvent(new Event("neuroflow:routine-selection-changed"));
+}
 
 export function loadRoutineBlocks(): RoutineBlock[] {
   if (typeof window === "undefined") return [];
@@ -31,6 +48,22 @@ export function loadRoutineBlocks(): RoutineBlock[] {
 export function saveRoutineBlocks(blocks: RoutineBlock[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(PRAGMA_ANCHORS_KEY, JSON.stringify(blocks));
+  window.dispatchEvent(new Event("neuroflow:routine-changed"));
+}
+
+export function loadDemoRoutineBlocks(): RoutineBlock[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(PRAGMA_DEMO_ANCHORS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveDemoRoutineBlocks(blocks: RoutineBlock[]) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PRAGMA_DEMO_ANCHORS_KEY, JSON.stringify(blocks));
   window.dispatchEvent(new Event("neuroflow:routine-changed"));
 }
 
@@ -62,5 +95,11 @@ export function saveSleepBoundaries(bounds: SleepBoundaries) {
 export function clearRoutineData() {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(PRAGMA_ANCHORS_KEY);
+  window.dispatchEvent(new Event("neuroflow:routine-changed"));
+}
+
+export function clearDemoRoutineData() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(PRAGMA_DEMO_ANCHORS_KEY);
   window.dispatchEvent(new Event("neuroflow:routine-changed"));
 }

@@ -8,6 +8,8 @@ import { AssessmentResult } from "@/components/AssessmentResult";
 import { isAssessmentComplete } from "@/lib/assessment";
 import { clearAllData, loadProfile, type FlowwProfile } from "@/lib/profile";
 import { WeeklyRoutineTab } from "@/components/WeeklyRoutineTab";
+import { NewTasksTab } from "@/components/NewTasksTab";
+
 
 export const Route = createFileRoute("/scheduler")({
 
@@ -127,14 +129,26 @@ function SchedulerPage() {
               profile={profile} 
               onContinueToTasks={() => setActive("tasks")} 
             />
+          ) : active === "profile" && profile ? (
+            <AssessmentResult
+              profile={profile}
+              hideActions
+              onSetUpRoutine={() => setActive("routine")}
+              onRetake={() => {
+                clearAllData();
+                setJustCompleted(false);
+              }}
+            />
+          ) : active === "tasks" ? (
+            <NewTasksTab profile={profile} />
           ) : (
-            <>
-              <h2 className="text-lg font-medium">{activeTab.label}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                This section is coming next.
-              </p>
-            </>
-          )}
+  <>
+    <h2 className="text-lg font-medium">{activeTab.label}</h2>
+    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+      This section is coming next.
+    </p>
+  </>
+)}
         </motion.section>
       </AnimatePresence>
     </div>
