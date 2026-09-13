@@ -1,0 +1,129 @@
+All Text — /home Page
+Hero Section
+
+Small label above headline:
+Neuroscience-Backed Weekly Scheduling
+
+Headline:
+Your week, finally designed around how you actually think.
+
+Subheadline:
+Pragma is a smart weekly scheduler that maps your chronotype, focus style, and motivation pattern — then builds your week around your brain, not against it. No more guessing. No more burnout. Just a week that actually works.
+
+Primary button:
+Build My Schedule
+
+Secondary button:
+See the science
+
+Stats Section
+
+Stat 1:
+43%
+of students worldwide experience burnout every semester
+— Chegg Global Student Survey 2025, n=11,706
+
+Stat 2:
+55%
+don't get enough sleep due to academic overload
+— Chegg Global Student Survey 2025, n=11,706
+
+Stat 3:
+2 in 5
+students say academics have destroyed their personal life
+— Healthy Minds Study 2024–25, n=84,000+
+
+Italic sentence below:
+The problem isn't that students don't work hard enough. It's that they plan their weeks without knowing how their brain works.
+
+How It Works Section
+
+Small label:
+THE PROCESS
+
+Headline:
+Four steps from chaos to a week that actually works.
+
+Step 01:
+Title: Discover Your Brain Profile
+Description: A 6-question neuroscience-backed assessment maps your chronotype, focus style, cognitive load tolerance, motivation pattern, energy recovery type, and procrastination profile. This profile shapes every scheduling decision Pragma makes for you.
+
+Step 02:
+Title: Set Your Fixed Routine
+Description: Lock in your recurring weekly anchors — university classes, gym sessions, meal times, sleep boundaries. These are the fixed points your schedule is built around. Pragma never schedules over them.
+
+Step 03:
+Title: Add This Week's Tasks
+Description: Tell Pragma what needs to get done — assignments, projects, study sessions, personal errands, social commitments. Add deadlines, effort levels, and priorities. Pragma handles the rest.
+
+Step 04:
+Title: Get Your Smart Schedule
+Description: Pragma's AI engine, powered by Google Gemini 2.0 Flash, generates a personalised weekly plan with every block placed at the right time for your specific brain. Every decision comes with a reason.
+
+The Science Section
+
+Small label:
+THE NEUROSCIENCE
+
+Headline:
+Not another to-do list. A schedule built on how your brain actually works.
+
+Card 1:
+Title: Chronotype
+Body: Your biological clock determines when your brain reaches peak cognitive performance. For some students that is 8am. For others it is 8pm. Forcing the wrong schedule onto the wrong chronotype doesn't build discipline — it destroys output. Pragma identifies your type and places your hardest work at your biological prime time.
+Source: Roenneberg et al, Munich Chronotype Questionnaire
+
+Card 2:
+Title: Ultradian Rhythm
+Body: The human brain naturally cycles through approximately 90-minute windows of high focus followed by rest. Working beyond this window without recovery doesn't produce more — it degrades quality and accelerates fatigue. Pragma sizes your study blocks to match these natural cycles rather than fighting them.
+Source: Peretz Lavie, Sleep Research Institute
+
+Card 3:
+Title: Motivation Architecture
+Body: Self-Determination Theory establishes that people differ fundamentally in how deadline proximity affects their performance. Some students produce their best work close to a deadline. Others perform best when they start early. Pragma identifies which type you are and schedules your tasks accordingly — not generically.
+Source: Deci and Ryan, University of Rochester, 1985–2026
+
+Personality Types Section
+
+Small label:
+YOUR TYPE
+
+Headline:
+Which one are you?
+
+Subtext:
+Pragma identifies your cognitive profile from 6 questions. Here's what each type looks like — and what it means for your week.
+
+Morning Architect card:
+Name: Morning Architect
+Tagline: You do your sharpest thinking before the world gets loud.
+Traits: Morning Peak · Deep Focus · Progress-Driven
+
+Burst Architect card:
+Name: Burst Architect
+Tagline: You work fast, focus hard, and finish strong under pressure.
+Traits: Morning Peak · Sprint Focus · Deadline-Driven
+
+Night Builder card:
+Name: Night Builder
+Tagline: Your best work happens when most people are already asleep.
+Traits: Evening Peak · Deep Focus · Deadline-Driven
+
+Steady Drifter card:
+Name: Steady Drifter
+Tagline: You work best when your week has shape without rigidity.
+Traits: Midday Peak · Flexible Focus · Balanced Drive
+
+Final CTA Section
+
+Headline:
+Stop planning your week by guessing. Start planning it around your brain.
+
+Subtext:
+Pragma takes 6 questions and 2 minutes. What you get back is a week designed specifically for how your brain works — with your personal life built in, not squeezed in last.
+
+Button:
+Take the Assessment — It's Free
+
+Below button:
+6 questions · 2 minutes · No account required · Powered by Gemini 2.0 Flash

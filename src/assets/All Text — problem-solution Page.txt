@@ -1,0 +1,114 @@
+All Text — /problem-solution Page
+Page Header
+
+Small label:
+DESIGNATHON 2026 — GDC RIT DUBAI × +TWE
+
+Headline:
+Problem & Solution
+
+Subtext:
+A research-backed investigation into why university students struggle to manage their time — and how Pragma addresses it at the root cause rather than the surface.
+
+The Problem Section
+
+Headline:
+University students are losing their personal lives to unplanned academic chaos.
+
+Paragraph 1:
+University students today manage more competing demands than any previous generation. Coursework, part-time employment, social obligations, mental health maintenance, and the looming pressure of career preparation all compete for the same finite hours. Yet the tools available to help them — generic to-do apps, rigid weekly planners, shared digital calendars — treat every student as if they were identical. They do not account for the fundamental biological reality that a student who reaches peak cognitive performance at 7am and a student who peaks at 10pm are not just different in preference. They are different in neurology, and they require fundamentally different schedules to perform at their best.
+
+Paragraph 2:
+The result is a generation of students who are technically busy but cognitively misaligned. They study at the wrong times, overload the wrong days, skip recovery, and sacrifice their personal lives not because they lack discipline or motivation — but because no tool has ever shown them how their own brain works. Burnout, chronic sleep deprivation, academic underperformance, and social isolation follow. Not as character flaws. As predictable, avoidable outcomes of a broken planning system.
+
+Paragraph 3:
+Existing solutions address the symptoms. Better task lists. Prettier calendars. Smarter reminders. None of them address the underlying neuroscience of when, how, and in what sequence a specific student should work. That gap is what Pragma is built to close.
+
+The Evidence Section
+
+Small label:
+THE EVIDENCE
+
+Headline:
+This isn't anecdotal. The data is overwhelming.
+
+Stat 1:
+Number: 43%
+Title: Global Student Burnout Rate
+Description: of students worldwide experienced academic burnout in the current semester — not occasionally, but as their ongoing baseline state
+Source: Chegg Global Student Survey 2025 · n=11,706 undergraduates · 15 countries
+
+Stat 2:
+Number: 55%
+Title: Chronic Sleep Deprivation
+Description: of undergraduate students report not getting enough sleep due to academic overload — impairing memory consolidation, emotional regulation, and cognitive performance
+Source: Chegg Global Student Survey 2025 · n=11,706 undergraduates · 15 countries
+
+Stat 3:
+Number: 68%
+Title: Students Working While Enrolled
+Description: of surveyed students were employed while enrolled in university, many working 20 or more hours per week alongside a full academic load
+Source: Hope Center Student Basic Needs Survey 2023–24 · n=74,350 · 91 colleges
+
+Stat 4:
+Number: 2 in 5
+Title: Academic Mental Health Impact
+Description: students report that their mental health impairs their ability to focus and perform academically to a significant degree — consistently, not occasionally
+Source: Healthy Minds Study 2024–25 · n=84,000+ · 135 institutions
+
+Synthesis paragraph:
+These four statistics are not isolated findings. They are interconnected symptoms of the same root problem — students planning their weeks without any understanding of how their individual brain works. A student who is burned out is also sleep-deprived. A student who is sleep-deprived performs worse academically. A student who performs worse academically experiences greater anxiety and reduces personal time further to compensate. The cycle is predictable. It is also preventable — if the planning system accounts for the human being using it.
+
+Sources line:
+Sources: Chegg Global Student Survey 2025 · Hope Center Student Basic Needs Survey 2023–24 · Healthy Minds Study 2024–25 · Inside Higher Ed Student Voice Survey 2024 · Trellis Strategies SFWS Fall 2024–25
+
+The Solution Section
+
+Small label:
+THE SOLUTION
+
+Headline:
+Pragma — A smart weekly scheduler that understands how you think.
+
+Paragraph 1:
+Pragma is not a to-do list. It is not a calendar app. It is not a productivity framework with a prettier interface. It is a personalised schedule generator that begins by understanding the student — their chronotype, their focus style, their cognitive load tolerance, their motivation architecture, their energy recovery pattern, and their procrastination profile — and uses that understanding to make every scheduling decision that follows.
+
+Paragraph 2:
+The process has four stages. First, a 6-question neuroscience-backed assessment maps the student's cognitive profile across the six parameters that most directly determine how and when they work best. Second, the student locks in their fixed weekly anchors — university classes, gym sessions, meal times, sleep boundaries — the non-negotiable structure around which everything else is arranged. Third, the student adds their tasks for the week with their deadlines, effort levels, split preferences, and priorities. Fourth, Pragma's AI engine, powered by Google Gemini 2.0 Flash, generates a fully personalised weekly plan.
+
+Paragraph 3:
+Every block in the generated schedule is placed with intention. Heavy academic tasks go at chronotype-matched peak hours — never randomly. Study block lengths match the student's natural focus window. Tasks for students with avoidant procrastination profiles always begin with a small initiating block early in the week to break the starting barrier. Recovery time is built in for introverted students after social or back-to-back academic blocks. Personal time is not squeezed in at the end — it is allocated as a first-class input alongside academic tasks. The result is a schedule that accounts for the student as a whole person, not just as a list of assignments to complete.
+
+Why It Matters Section
+
+Small label:
+WHY IT MATTERS
+
+Headline:
+This isn't just a productivity tool. It's a student wellbeing intervention.
+
+Card 1:
+Title: Prevents Burnout
+Body: Burnout is not caused by hard work. It is caused by hard work without adequate recovery, scheduled at the wrong times, beyond the cognitive limits of the individual. Pragma builds schedules that respect those limits by design. It never places more heavy tasks in a day than the student's cognitive load profile can sustain, and it always protects recovery time as a non-negotiable part of the week.
+
+Card 2:
+Title: Protects Personal Life
+Body: The single most common trade-off students make under academic pressure is eliminating personal time — hobbies, social connection, exercise, rest. Pragma treats these as scheduling inputs with equal weight to academic tasks, not as optional extras to be added if time permits. A student's personal life is built into their week first, not considered last.
+
+Card 3:
+Title: Improves Academic Output
+Body: Tasks placed at chronotype-matched peak cognitive hours consistently produce better work in less time than tasks scheduled without regard to the student's biological rhythm. Pragma doesn't ask students to work harder. It asks them to work at the right time — and the neuroscience shows that this single change produces measurable improvements in focus, retention, and output quality.
+
+Footer CTA
+
+Headline:
+Ready to build a week that actually works for your brain?
+
+Subtext:
+Take the Pragma assessment in 2 minutes and get a personalised weekly schedule built around your neuroscience profile.
+
+Button:
+Take the Assessment
+
+Below button:
+Free · No account required · 6 questions · Powered by Gemini 2.0 Flash
