@@ -1,4 +1,6 @@
-export const ASSESSMENT_KEY = "neuroflow_assessment_complete";
+import { COMPLETE_KEY } from "@/lib/profile";
+
+export const ASSESSMENT_KEY = COMPLETE_KEY;
 
 export function isAssessmentComplete(): boolean {
   if (typeof window === "undefined") return false;
