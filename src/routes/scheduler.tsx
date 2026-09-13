@@ -91,39 +91,22 @@ function SchedulerPage() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="mt-6 rounded-2xl border border-border bg-card p-10"
+          className="mt-6 rounded-2xl border border-border bg-card p-6 sm:p-10"
         >
-          <h2 className="text-lg font-medium">{activeTab.label}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            This section is coming next.
-          </p>
-
-          {active === "assessment" && (
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setAssessmentComplete(true);
-                  toast.success("Assessment complete — all tabs unlocked.");
-                }}
-                className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                Mark assessment complete
-              </button>
-              {unlocked && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAssessmentComplete(false);
-                    setActive("assessment");
-                    toast("Assessment reset.");
-                  }}
-                  className="rounded-full border border-border px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Reset
-                </button>
-              )}
-            </div>
+          {active === "assessment" ? (
+            <AssessmentQuiz
+              onComplete={() => {
+                setAssessmentComplete(true);
+                toast.success("Assessment complete — all tabs unlocked.");
+              }}
+            />
+          ) : (
+            <>
+              <h2 className="text-lg font-medium">{activeTab.label}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                This section is coming next.
+              </p>
+            </>
           )}
         </motion.section>
       </AnimatePresence>
