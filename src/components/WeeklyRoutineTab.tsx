@@ -75,7 +75,7 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
   
   useEffect(() => {
     setBlocks(activeRoutine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks());
-    setSleepBounds(loadSleepBoundaries(profile));
+    setSleepBounds(loadSleepBoundaries(profile, activeRoutine));
     
     // Auto-scroll to 07:00
     if (scrollRef.current) {
@@ -84,7 +84,7 @@ export function WeeklyRoutineTab({ profile, onContinueToTasks }: WeeklyRoutineTa
     
     const handleStorage = () => {
       setBlocks(activeRoutine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks());
-      setSleepBounds(loadSleepBoundaries(profile));
+      setSleepBounds(loadSleepBoundaries(profile, activeRoutine));
     };
     window.addEventListener("neuroflow:routine-changed", handleStorage);
     return () => window.removeEventListener("neuroflow:routine-changed", handleStorage);

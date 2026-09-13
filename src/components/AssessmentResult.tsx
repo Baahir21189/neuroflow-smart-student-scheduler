@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BedDouble, Palette, Sunrise, Zap } from "lucide-react";
+import { ArrowRight, BedDouble, BrainCircuit, Palette, Sunrise, Zap } from "lucide-react";
 import {
   academicsBullets,
   personalBullets,
@@ -13,6 +13,7 @@ interface Props {
   profile: FlowwProfile;
   condensed?: boolean;
   hideActions?: boolean;
+  profileView?: boolean;
   onSetUpRoutine: () => void;
   onRetake: () => void;
 }
@@ -122,13 +123,107 @@ function RetakeButton({ onRetake }: { onRetake: () => void }) {
   );
 }
 
+const profileTraits = [
+  ["Chronotype", "chronotype"],
+  ["Focus style", "focusStyle"],
+  ["Cognitive load", "cognitiveLoad"],
+  ["Motivation", "motivation"],
+  ["Energy recovery", "energyRecovery"],
+  ["Procrastination", "procrastination"],
+] as const;
+
+function ProfileOverview({ profile }: { profile: FlowwProfile }) {
+  const content = TYPE_CONTENT[profile.type];
+  const week = content.week;
+
+  return (
+    <div className="mx-auto max-w-4xl py-2">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="flex flex-col gap-6 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between"
+      >
+        <div>
+          <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-primary/15">
+              <BrainCircuit className="size-5" />
+            </span>
+            My cognitive profile
+          </div>
+          <h2 className="mt-6 text-4xl font-bold tracking-tight text-primary sm:text-5xl">{content.name}</h2>
+          <p className="mt-3 max-w-xl text-sm italic leading-6 text-muted-foreground">“{content.tagline}”</p>
+        </div>
+        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">Assessment complete</span>
+      </motion.div>
+
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.12, duration: 0.45 }}
+        className="mt-8"
+      >
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Your signals</p>
+            <h3 className="mt-2 text-2xl font-semibold tracking-tight">How your brain prefers to work</h3>
+          </div>
+          <span className="hidden text-xs text-muted-foreground sm:block">6 dimensions mapped</span>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {profileTraits.map(([label, key], index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 + index * 0.05 }}
+              className="rounded-xl border border-border bg-secondary/25 p-4"
+            >
+              <p className="text-xs text-muted-foreground">{label}</p>
+              <p className="mt-2 text-sm font-semibold capitalize text-foreground">{profile.traits[key]}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      <div className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+        <motion.section
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.45 }}
+          className="rounded-2xl border border-border bg-secondary/20 p-6"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Your operating pattern</p>
+          <p className="mt-4 text-sm leading-7 text-foreground/90">{content.howYouThink}</p>
+        </motion.section>
+        <motion.section
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.45 }}
+          className="rounded-2xl border border-primary/25 bg-primary/[0.07] p-6"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Weekly rhythm</p>
+          <div className="mt-4 space-y-4">
+            <div><p className="text-xs text-muted-foreground">Peak study window</p><p className="mt-1 text-sm font-semibold text-primary">{week.peak}</p></div>
+            <div><p className="text-xs text-muted-foreground">Personal time</p><p className="mt-1 text-sm font-semibold text-primary">{week.personal}</p></div>
+            <div><p className="text-xs text-muted-foreground">Sleep boundary</p><p className="mt-1 text-sm font-semibold text-primary">{week.wake} wake · {week.bed} bed</p></div>
+          </div>
+        </motion.section>
+      </div>
+    </div>
+  );
+}
+
 export function AssessmentResult({
   profile,
   condensed = false,
   hideActions = false,
+  profileView = false,
   onSetUpRoutine,
   onRetake,
 }: Props) {
+  if (profileView) return <ProfileOverview profile={profile} />;
+
   const content = TYPE_CONTENT[profile.type];
   const animate = !condensed;
 

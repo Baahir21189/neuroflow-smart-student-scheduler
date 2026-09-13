@@ -3,8 +3,8 @@ import { BrainCircuit } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border/70 px-6 py-10 lg:px-10">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+    <footer className="border-t border-border/70 px-6 py-6 lg:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <Link to="/" className="flex items-center gap-2 font-semibold text-foreground">
           <span className="flex size-7 items-center justify-center rounded-lg bg-primary/15 text-primary">
             <BrainCircuit className="size-4" />

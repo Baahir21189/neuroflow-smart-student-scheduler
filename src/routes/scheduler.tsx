@@ -9,6 +9,7 @@ import { isAssessmentComplete } from "@/lib/assessment";
 import { clearAllData, loadProfile, type FlowwProfile } from "@/lib/profile";
 import { WeeklyRoutineTab } from "@/components/WeeklyRoutineTab";
 import { NewTasksTab } from "@/components/NewTasksTab";
+import { SiteFooter } from "@/components/SiteFooter";
 
 
 export const Route = createFileRoute("/scheduler")({
@@ -63,19 +64,21 @@ function SchedulerPage() {
   const activeTab = tabs.find((t) => t.id === active)!;
 
   return (
+    <>
     <div className="mx-auto max-w-5xl px-6 pb-32 pt-32">
       <h1 className="text-3xl font-bold tracking-tight">Scheduler</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Complete the personality assessment to unlock the rest of your workspace.
+        Plan your week around how your brain works.
       </p>
 
-      <div className="mt-8 flex flex-wrap gap-2 rounded-2xl border border-border bg-card p-2">
+      <motion.div initial="hidden" animate="visible" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }} className="mt-8 flex flex-wrap gap-2 rounded-2xl border border-border bg-card p-2">
         {tabs.map((tab) => {
           const disabled = tab.locked && !unlocked;
           const isActive = active === tab.id;
           return (
-            <button
+            <motion.button
               key={tab.id}
+              variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
               type="button"
               disabled={disabled}
               aria-disabled={disabled}
@@ -91,10 +94,10 @@ function SchedulerPage() {
             >
               {disabled ? <Lock className="size-4" /> : <tab.icon className="size-4" />}
               {tab.label}
-            </button>
+            </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
       <AnimatePresence mode="wait">
         <motion.section
@@ -133,6 +136,7 @@ function SchedulerPage() {
             <AssessmentResult
               profile={profile}
               hideActions
+              profileView
               onSetUpRoutine={() => setActive("routine")}
               onRetake={() => {
                 clearAllData();
@@ -152,5 +156,7 @@ function SchedulerPage() {
         </motion.section>
       </AnimatePresence>
     </div>
+    <SiteFooter />
+    </>
   );
 }

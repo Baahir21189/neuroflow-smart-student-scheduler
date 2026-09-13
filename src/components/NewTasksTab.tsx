@@ -429,7 +429,7 @@ export function NewTasksTab({ profile }: NewTasksTabProps) {
 
     const activeRoutine = loadActiveRoutine();
     const anchors = activeRoutine === "demo" ? loadDemoRoutineBlocks() : loadRoutineBlocks();
-    const sleep = loadSleepBoundaries(profile);
+    const sleep = loadSleepBoundaries(profile, activeRoutine);
 
     const prompt = `
 You are a neuroscience-backed weekly scheduler for university students.
@@ -604,7 +604,7 @@ Return ONLY valid JSON, no other text:
 
   // ── Free hours calculation ─────────────────────────────────────────────────
 
-  const sleep = loadSleepBoundaries(profile);
+  const sleep = loadSleepBoundaries(profile, loadActiveRoutine());
   const [wh, wm] = sleep.wakeTime.split(":").map(Number);
   const [bh, bm] = sleep.bedTime.split(":").map(Number);
   const dailyFreeHours = (bh! + bm! / 60) - (wh! + wm! / 60);
