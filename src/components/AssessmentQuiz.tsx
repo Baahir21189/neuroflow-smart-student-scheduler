@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Brain } from "lucide-react";
+import { calculateProfile, saveProfile, type AssessmentAnswers } from "@/lib/profile";
 
 const QUESTIONS = [
   {
@@ -87,8 +88,9 @@ export function AssessmentQuiz({ onComplete }: { onComplete?: () => void }) {
   }
 
   function calculateResult(finalAnswers: Answers) {
-    // Placeholder — result logic defined in a later prompt.
-    console.log("Assessment answers:", finalAnswers);
+    const profile = calculateProfile(finalAnswers as AssessmentAnswers);
+    saveProfile(profile);
+    console.log("Assessment profile:", profile);
   }
 
   function handleNext() {
