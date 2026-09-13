@@ -7,8 +7,10 @@ import { AssessmentQuiz } from "@/components/AssessmentQuiz";
 import { AssessmentResult } from "@/components/AssessmentResult";
 import { isAssessmentComplete } from "@/lib/assessment";
 import { clearAllData, loadProfile, type FlowwProfile } from "@/lib/profile";
+import { WeeklyRoutineTab } from "@/components/WeeklyRoutineTab";
 
 export const Route = createFileRoute("/scheduler")({
+
   head: () => ({
     meta: [
       { title: "Scheduler — NeuroFlow" },
@@ -120,6 +122,11 @@ function SchedulerPage() {
                 }}
               />
             )
+          ) : active === "routine" ? (
+            <WeeklyRoutineTab 
+              profile={profile} 
+              onContinueToTasks={() => setActive("tasks")} 
+            />
           ) : (
             <>
               <h2 className="text-lg font-medium">{activeTab.label}</h2>
