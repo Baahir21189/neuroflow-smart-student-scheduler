@@ -78,7 +78,7 @@ export function AssessmentQuiz({ onComplete }: { onComplete?: () => void }) {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
 
-  const question = QUESTIONS[current];
+  const question = QUESTIONS[current]!;
   const selected = answers[question.id];
   const isLast = current === QUESTIONS.length - 1;
 
