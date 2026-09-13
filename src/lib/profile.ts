@@ -242,6 +242,7 @@ export function loadProfile(): FlowwProfile | null {
 }
 
 export function clearAllData() {
-  window.localStorage.clear();
+  window.localStorage.removeItem(PROFILE_KEY);
+  window.localStorage.removeItem(COMPLETE_KEY);
   window.dispatchEvent(new Event("neuroflow:assessment-changed"));
 }
