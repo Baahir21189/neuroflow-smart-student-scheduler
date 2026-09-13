@@ -4,7 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Brain, CalendarDays, ListPlus, Lock, User } from "lucide-react";
 import { toast } from "sonner";
 import { AssessmentQuiz } from "@/components/AssessmentQuiz";
-import { isAssessmentComplete, setAssessmentComplete } from "@/lib/assessment";
+import { AssessmentResult } from "@/components/AssessmentResult";
+import { isAssessmentComplete } from "@/lib/assessment";
+import { clearAllData, loadProfile, type FlowwProfile } from "@/lib/profile";
 
 export const Route = createFileRoute("/scheduler")({
   head: () => ({
@@ -37,9 +39,14 @@ type TabId = (typeof tabs)[number]["id"];
 function SchedulerPage() {
   const [active, setActive] = useState<TabId>("assessment");
   const [unlocked, setUnlocked] = useState(false);
+  const [profile, setProfile] = useState<FlowwProfile | null>(null);
+  const [justCompleted, setJustCompleted] = useState(false);
 
   useEffect(() => {
-    const sync = () => setUnlocked(isAssessmentComplete());
+    const sync = () => {
+      setUnlocked(isAssessmentComplete());
+      setProfile(loadProfile());
+    };
     sync();
     window.addEventListener("neuroflow:assessment-changed", sync);
     window.addEventListener("storage", sync);
@@ -95,12 +102,24 @@ function SchedulerPage() {
           className="mt-6 rounded-2xl border border-border bg-card p-6 sm:p-10"
         >
           {active === "assessment" ? (
-            <AssessmentQuiz
-              onComplete={() => {
-                setAssessmentComplete(true);
-                toast.success("Assessment complete — all tabs unlocked.");
-              }}
-            />
+            profile && isAssessmentComplete() ? (
+              <AssessmentResult
+                profile={profile}
+                condensed={!justCompleted}
+                onSetUpRoutine={() => setActive("routine")}
+                onRetake={() => {
+                  clearAllData();
+                  setJustCompleted(false);
+                }}
+              />
+            ) : (
+              <AssessmentQuiz
+                onComplete={() => {
+                  setJustCompleted(true);
+                  toast.success("Assessment complete — all tabs unlocked.");
+                }}
+              />
+            )
           ) : (
             <>
               <h2 className="text-lg font-medium">{activeTab.label}</h2>
